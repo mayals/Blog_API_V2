@@ -1,0 +1,17 @@
+pip install virtualenv
+virtualenv vir_folder_name
+cd vir_folder_name
+cd scripts
+activate
+cd ..
+cd ..
+cd src
+pip install django
+django-admin startproject projectname .
+python manage.py runserver
+python manage.py migrate
+python manage.py createsuperuser
+
+
+
+
