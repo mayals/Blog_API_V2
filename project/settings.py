@@ -38,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # https://www.django-rest-framework.org/#installation
+    'rest_framework',
+
+    # my app 
+    'blog_api.apps.BlogApiConfig'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
