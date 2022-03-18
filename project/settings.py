@@ -39,23 +39,39 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+     # my app
+    'blog_api.apps.BlogApiConfig',
+    
+    
     # https://www.django-rest-framework.org/#installation
     'rest_framework',
 
-    # my app 
-    'blog_api.apps.BlogApiConfig'
+
+    # https://pypi.org/project/django-cors-headers/
+    "corsheaders",
 ]
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    # https://pypi.org/project/django-cors-headers/
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8882',
+    'http://127.0.0.1:8082',
+)
+
 
 ROOT_URLCONF = 'project.urls'
 
