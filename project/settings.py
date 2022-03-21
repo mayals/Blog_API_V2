@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
 
     # https://pypi.org/project/django-cors-headers/
-    "corsheaders",
+    "corsheaders"
 ]
 
 
@@ -68,8 +68,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8882',
-    'http://127.0.0.1:8082',
+    'http://localhost:8880',
+    'http://127.0.0.1:8080',
 )
 
 
