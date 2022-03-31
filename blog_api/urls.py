@@ -11,6 +11,9 @@ urlpatterns = [
     path('posts/',views.PostList.as_view(),name='posts'),
     path('post/<int:pk>',views.PostDetail.as_view(),name='post'),
     
+    path('comments/',views.CommentList.as_view(),name='comments'),
+
+
     path('users/',views.UserList.as_view(),name='users'),
     path('user/<int:pk>',views.UserDetail.as_view(),name='user'),
 ]

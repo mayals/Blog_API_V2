@@ -48,7 +48,10 @@ INSTALLED_APPS = [
 
 
     # https://pypi.org/project/django-cors-headers/
-    "corsheaders"
+    "corsheaders",
+
+    # https://pypi.org/project/djoser/
+    'djoser',
 ]
 
 
@@ -68,7 +71,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8880',
+    'http://localhost:8080',
     'http://127.0.0.1:8080',
 )
 
@@ -152,3 +155,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #
 AUTH_USER_MODEL = 'blog_api.UserModel'
+
+
+CSRF_COOKIE_NAME = "XSRF-TOKEN"

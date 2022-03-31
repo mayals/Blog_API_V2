@@ -12,7 +12,7 @@ class UserModel(AbstractUser):
    last_name       = models.CharField(max_length = 10 ,null = True)
    born_date       = models.DateTimeField(null = True)
    USERNAME_FIELD  = 'username'
-   REQUIRED_FIELDS = ['first_name', 'email']
+   REQUIRED_FIELDS = ['email']
    
    def __str__(self):
        return "{}".format(self.username) 
@@ -46,4 +46,17 @@ class Post(models.Model):
 
 
 
-     
+
+class Comment(models.Model):
+    post             = models.ForeignKey(Post,on_delete=models.CASCADE,null=True,related_name='comments')
+    text             = models.TextField(null = True)
+    comment_by       = models.CharField(max_length=200)
+    created_at       = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at       = models.DateTimeField(auto_now=True, null=True)
+    approved_comment = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        ordering = ['created_at']

@@ -2,9 +2,9 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Category,Post,UserModel
-from .serializers import PostSerializer,UserModelSerializer,CategorySerializer
-
+from .models import Category,Post,UserModel,Comment
+from .serializers import PostSerializer,UserModelSerializer,CategorySerializer,CommentSerializer
+from django.shortcuts import get_object_or_404
 
 ############################## Category ########################
 class CategoryList(APIView):
@@ -67,11 +67,11 @@ class PostList(APIView):
     """
     def get(self, request, format=None):
         posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostSerializer(posts, many=True, context = {'request': request})
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = PostSerializer(data=request.data)
+        serializer = PostSerializer(data=request.data, context = {'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -87,17 +87,17 @@ class PostDetail(APIView):
     """
     def get_object(self, pk):
         try:
-            return Post.objects.get(pk=pk)
+            post = get_object_or_404(Post,pk=pk)
         except Post.DoesNotExist:
-            raise Http404
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     def get(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = PostSerializer(post)
+        post = get_object_or_404(Post,pk=pk)
+        serializer = PostSerializer(post, context = {'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-        post = self.get_object(pk)
+        post = get_object_or_404(Post, pk=pk)
         serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -105,9 +105,31 @@ class PostDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        post = self.get_object(pk)
+        post = get_object_or_404(Post,pk=pk)
         post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)    
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+############################## Comment ######################################
+class CommentList(APIView):
+    """
+    List all comments, or create a new comment.
+    """
+
+    def get(self, request, format=None):
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = CommentSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
